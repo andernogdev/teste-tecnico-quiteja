@@ -146,11 +146,11 @@ class GeradorInserts:
         query_select = (
             "SELECT "
                 "created_at::DATE AS date_created_at, "
-                "descricao_tipo, "
+                "tipo, "
                 "COUNT(*) AS quantidade "
             "FROM dados_finais "
-            "GROUP BY date_created_at, descricao_tipo "
-            "ORDER BY date_created_at, descricao_tipo;"
+            "GROUP BY date_created_at, tipo "
+            "ORDER BY date_created_at, tipo;"
         )
 
         return query_select
