@@ -1,4 +1,4 @@
-from script.gerador_inserts import GeradorInserts
+from script.manipulador_dados import ManipuladorDados
 
 
 class ConsultaTipoService:
@@ -13,9 +13,9 @@ class ConsultaTipoService:
         Returns:
             dict: response da requisição.
         """
-        gerador_inserts = GeradorInserts()
+        manip_dados = ManipuladorDados()
 
-        if not gerador_inserts.descompactar_arquivo("dados.zip"):
+        if not manip_dados.descompactar_arquivo("dados.zip"):
             return {
                 'status': 500,
                 'data': {
@@ -23,7 +23,7 @@ class ConsultaTipoService:
                 }
             }
 
-        if not gerador_inserts.carregar_arquivos_csv():
+        if not manip_dados.carregar_arquivos_csv():
             return {
                 'status': 500,
                 'data': {
@@ -31,7 +31,7 @@ class ConsultaTipoService:
                 }
             }
 
-        descricao_tipo = gerador_inserts.obtem_tipo_por_id(id_tipo)
+        descricao_tipo = manip_dados.obtem_tipo_por_id(id_tipo)
 
         if not descricao_tipo:
             return {

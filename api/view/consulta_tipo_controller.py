@@ -16,7 +16,7 @@ class TipoController(FlaskView):
         Returns:
             dict: response da requisição.
         """
-        print(f"Consultando tipo do id {id_tipo}...")
+        # print(f"Consultando tipo do id {id_tipo}...")
 
         response = ConsultaTipoService().consulta_tipo_por_id(id_tipo)
 
