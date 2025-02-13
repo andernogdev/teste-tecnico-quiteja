@@ -2,7 +2,7 @@
 
 ## Descrição do projeto
 
-- O projeto consiste em um script que gera inserts para popular um banco de dados SQLite e um servidor Flask que disponibiliza uma API para consulta dos dados.
+- O projeto consiste em um script que gera inserts para popular um banco de dados PostgreSQL e um servidor Flask que disponibiliza uma API para consulta dos dados.
 - Construído com Python 3.12+ no Windows 11.
 - Desenvolvido com Flask e pandas.
 - Servidor Flask e o script gerador de inserts podem ser executados de uma vez, mas se preferir visualizar o funcionamento separadamente, comente o trecho adequado no arquivo `main.py`.
