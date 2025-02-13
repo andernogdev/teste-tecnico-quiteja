@@ -59,7 +59,7 @@ class ManipuladorDados:
             print("DataFrame de tipos não carregado.")
             return False
 
-        self.__df_origem_dados['descricao_tipo'] = self.__df_origem_dados['tipo'].map(
+        self.__df_origem_dados['nome_tipo'] = self.__df_origem_dados['tipo'].map(
             self.__df_tipos.set_index('id')['nome']
         )
 

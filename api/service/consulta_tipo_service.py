@@ -31,9 +31,9 @@ class ConsultaTipoService:
                 }
             }
 
-        descricao_tipo = manip_dados.obtem_tipo_por_id(id_tipo)
+        nome_tipo = manip_dados.obtem_tipo_por_id(id_tipo)
 
-        if not descricao_tipo:
+        if not nome_tipo:
             return {
                 'status': 404,
                 'data': {
@@ -45,6 +45,6 @@ class ConsultaTipoService:
             'status': 200,
             'data': {
                 'id': id_tipo,
-                'descricao': descricao_tipo
+                'nome': nome_tipo
             }
         }

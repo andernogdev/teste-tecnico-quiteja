@@ -17,7 +17,7 @@ class GeradorInserts:
                 f"{row['product_code']}, "
                 f"{row['customer_code']}, "
                 f"'{row['status']}', "
-                f"'{row['descricao_tipo']}');"
+                f"'{row['nome_tipo']}');"
             )
 
         # Geração do arquivo insert-dados.sql
