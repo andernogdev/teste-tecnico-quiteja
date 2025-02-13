@@ -3,6 +3,8 @@ from script.manipulador_dados import ManipuladorDados
 
 class GeradorInserts:
 
+    NOME_ARQUIVO_SQL = "insert-dados.sql"
+
     def __init__(self) -> None:
         self.manip_dados = ManipuladorDados()
 
@@ -20,13 +22,34 @@ class GeradorInserts:
                 f"'{row['nome_tipo']}');"
             )
 
-        # Geração do arquivo insert-dados.sql
-        self.manip_dados.df_origem_dados.to_csv(
-            f"{self.manip_dados.PATH_DADOS}/insert-dados.sql",
-            columns = ['insert'],
-            header = False,
-            index = False
-        )
+        nome_arquivo_sql = f"{self.manip_dados.PATH_DADOS}/{self.NOME_ARQUIVO_SQL}"
+
+        try:
+            # Geração do arquivo insert-dados.sql
+            self.manip_dados.df_origem_dados.to_csv(
+                nome_arquivo_sql,
+                columns = ['insert'],
+                header = False,
+                index = False
+            )
+
+            # Remove " do arquivo insert-dados.sql
+            with open(
+                file = nome_arquivo_sql,
+                mode = 'r',
+                encoding = "UTF-8"
+            ) as f_read:
+                data = f_read.read()
+
+                with open(
+                    file = nome_arquivo_sql,
+                    mode = 'w',
+                    encoding = "UTF-8"
+                ) as f_write:
+                    f_write.write(data.replace('"', ''))
+        except Exception as e:
+            print(f"Erro ao gerar arquivo {nome_arquivo_sql}: {e}")
+            return False
 
         return True
 
