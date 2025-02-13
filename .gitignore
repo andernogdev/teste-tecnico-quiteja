@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Arquivos sql e csv
+*.sql
+*.csv
+
 # Distribution / packaging
 .Python
 build/
