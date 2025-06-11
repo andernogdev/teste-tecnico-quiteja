@@ -9,47 +9,44 @@ class GeradorInserts:
         self.manip_dados = ManipuladorDados()
 
     def __gerar_inserts_sql(self) -> bool:
+        nome_arquivo_sql = f"{self.manip_dados.PATH_DADOS}/{self.NOME_ARQUIVO_SQL}"
+
         # Geração das queries de insert
+        prefixo_insert = (
+            "INSERT INTO dados_finais "
+            "(created_at, product_code, customer_code, status, tipo) "
+            "VALUES \n"
+        )
+        values_insert = ""
+
+        self.manip_dados.df_origem_dados.reset_index(inplace = True)
+
         for idx, row in self.manip_dados.df_origem_dados.iterrows():
-            self.manip_dados.df_origem_dados.loc[idx, 'insert'] = (
-                "INSERT INTO dados_finais "
-                "(created_at, product_code, customer_code, status, tipo) "
-                "VALUES ("
-                f"TIMESTAMP '{row['created_at']}', "
+            values_insert += (
+                f"(TIMESTAMP '{row['created_at']}', "
                 f"{row['product_code']}, "
                 f"{row['customer_code']}, "
                 f"'{row['status']}', "
-                f"'{row['nome_tipo']}');"
+                f"'{row['nome_tipo']}'),\n"
             )
 
-        nome_arquivo_sql = f"{self.manip_dados.PATH_DADOS}/{self.NOME_ARQUIVO_SQL}"
+            if (idx + 1) % 10 == 0 or (idx + 1) == self.manip_dados.df_origem_dados.index.size:
+                query_formatada = prefixo_insert + values_insert + ';\n\n'
 
-        try:
-            # Geração do arquivo insert-dados.sql
-            self.manip_dados.df_origem_dados.to_csv(
-                nome_arquivo_sql,
-                columns = ['insert'],
-                header = False,
-                index = False
-            )
+                query_formatada = query_formatada.replace("),\n;", ")\n;")
 
-            # Remove " do arquivo insert-dados.sql
-            with open(
-                file = nome_arquivo_sql,
-                mode = 'r',
-                encoding = "UTF-8"
-            ) as f_read:
-                data = f_read.read()
+                values_insert = ""
 
-                with open(
-                    file = nome_arquivo_sql,
-                    mode = 'w',
-                    encoding = "UTF-8"
-                ) as f_write:
-                    f_write.write(data.replace('"', ''))
-        except Exception as e:
-            print(f"Erro ao gerar arquivo {nome_arquivo_sql}: {e}")
-            return False
+                try:
+                    with open(
+                        file = nome_arquivo_sql,
+                        mode = 'a+',
+                        encoding = "UTF-8"
+                    ) as f_write:
+                        f_write.write(query_formatada)
+                except Exception as e:
+                    print(f"Erro ao gerar arquivo {nome_arquivo_sql}: {e}")
+                    return False
 
         return True
 
